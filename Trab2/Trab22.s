@@ -6,7 +6,7 @@ main:
 
 iteracao0:
 lw $s7, mascXor
-lw $s1, Dividendo # Carrega o valor do Dividendo para o Resto 
+lw $s1, tDividendo # Carrega o valor do Dividendo para o Resto 
 # $s1 e $s2 serao os registradores do resto sendo #s2 o registrador com os bits mais significativos do Resto 
 # $s3 e $s4 serao os registradores do Divisor sendo #s4 o registrador com os bits mais significativos do Divisor 
 #  $s2$s1
@@ -37,10 +37,10 @@ add $t9, $zero, $zero # zera o valor da flag $t9, quando for 1, quer dizer que o
 ##################################################################################################
 
 SomaResto:
-beq $t8, 33, Finaliza
+beq $t8, 32, DeslocaResto # Finaliza
 addi $t8, $t8, 1 # Incremenda o contador de Iteraçoes
 
-lw $s4, Divisor # Carrega para os bits mais significativos o divisor
+lw $s4, tDivisor # Carrega para os bits mais significativos o divisor
 # Coloca em complemento de 2 o divisor 
 divNegado:
 xor $s4, $s4, $s7 # Armazena em $t4 os bits mais significativos do divisor negado
@@ -73,6 +73,10 @@ srl $s2, $s2, 1 # Desloca os bits mais significativa do Resto para direita
 # Imprime Quociente
 add $a0, $zero, $s2 # Carrega para $a0 o valor a ser impresso
 li $v0, 36 # Imprime inteiro
+syscall
+
+li    $a0, ' '
+li    $v0, 11
 syscall
 
 # Imprime Resto
